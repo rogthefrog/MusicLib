@@ -5,6 +5,8 @@
  */
 package com.rogthefrog.music;
 
+import java.lang.IllegalArgumentException;
+
 public enum AbsNote {
   C       (0,   "C",  "do"),
   
@@ -39,11 +41,25 @@ public enum AbsNote {
 
   B_SHARP (0,   "B#", "si #",   "ti #");
 
-
   public final int pitch; // offset from C in semitones
   public final String name; // A, B, etc.
   public final String stdName; // la, si, etc
   public final String englishName; // la, ti, etc
+  
+  public static final AbsNote[] namesFromPitch = new AbsNote[] {
+      AbsNote.C, 
+      AbsNote.C_SHARP,
+      AbsNote.D,
+      AbsNote.D_SHARP,
+      AbsNote.E,
+      AbsNote.F,
+      AbsNote.F_SHARP,
+      AbsNote.G,
+      AbsNote.G_SHARP,
+      AbsNote.A,
+      AbsNote.A_SHARP,
+      AbsNote.B
+  };
   
   enum NameStyle {
     SHORT, STANDARD, ENGLISH
@@ -65,6 +81,20 @@ public enum AbsNote {
     englishName = enm;
   }
 
+  public static AbsNote fromPitch(int p) {
+    return namesFromPitch[wrapPitch(p)];
+  }
+  
+  /**
+   * given a pitch outside of 0 - 11, maps it to the right pitch
+   * @param p pitch
+   * @return wrapped pitch
+   */
+  public static int wrapPitch(int p) {
+    int mod = p % 12;
+    return (mod < 0) ? 12 + mod : mod;
+  }
+  
   public int pitch() {
     return pitch;
   }

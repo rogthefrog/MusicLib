@@ -14,7 +14,7 @@ public class Note {
    */
   public Note(AbsNote n) {
     note = n;
-    octave  = 0;
+    octave = 0;
   }
   /**
    * constructor with specified octave
@@ -52,5 +52,29 @@ public class Note {
   
   public String toString() {
     return note.toString() + octave;
+  }
+  
+  /**
+   * adds or subtracts semitones
+   * @param semitones number of semitones to add/subtract
+   * @return modified note
+   */
+  public Note add(int semitones) {
+    if (semitones == 0) {
+      return this;
+    }
+    
+    int step = (semitones < 0) ? -1 : 1;
+    // wrapping B -> C or C -> B? change octave
+    if (step == -1 && note.equals(AbsNote.C)) {
+      --octave;
+    } else if (step == 1 && note.equals(AbsNote.B)) {
+      ++octave;
+    }
+    // add step by step recursively
+    note = AbsNote.fromPitch(note.getPitch() + step); 
+    add(semitones - step);
+      
+    return this;
   }
 }
