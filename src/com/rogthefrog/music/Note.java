@@ -26,6 +26,10 @@ public class Note {
     octave  = oct;
   }
   
+  public Note clone() {
+    return new Note(note, octave);
+  }
+  
   public int getOctave() {
     return octave;
   }

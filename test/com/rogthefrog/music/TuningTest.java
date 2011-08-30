@@ -8,9 +8,9 @@ public class TuningTest {
   @Test
   public void testAddString() {
     Tuning t = new Tuning(3);
-    t.addString(new Note(AbsNote.C, 3));
+    t.addNote(new Note(AbsNote.C, 3));
     try {
-      t.addString(new Note(AbsNote.C, 3), 5);
+      t.setNoteAt(new Note(AbsNote.C, 3), 5);
     } catch (Exception e) {
       assertEquals("java.lang.IllegalArgumentException", e.getClass().getName());
       assertEquals("Bad position: 5", e.getMessage());

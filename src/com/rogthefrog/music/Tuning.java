@@ -6,23 +6,23 @@ public class Tuning {
   public static final int DEFAULT_NUM_STRINGS = 6;
   protected int numStrings;
   protected int cursor = 0;
-  protected Note[] strings;
+  protected Note[] notes;
   
   public Tuning() {
     numStrings = DEFAULT_NUM_STRINGS;
-    strings = new Note[DEFAULT_NUM_STRINGS];
+    notes = new Note[DEFAULT_NUM_STRINGS];
     cursor = 0;
   }
   
   public Tuning(int s) {
     numStrings = s;
-    strings = new Note[numStrings];
+    notes = new Note[numStrings];
     cursor = 0;
   }
   
   public Tuning(Note[] str) {
     numStrings = str.length;
-    strings = str;
+    notes = str;
     cursor = numStrings - 1;
   }
   
@@ -31,23 +31,23 @@ public class Tuning {
    * @param str array of Note objects
    * @return this Tuning
    */
-  public Tuning setStrings(Note[] str) {
+  public Tuning setNotes(Note[] str) {
     numStrings = str.length;
-    strings = str;
+    notes = str;
     cursor = numStrings - 1;
     return this;
   }
   
   /**
    * adds string to the end of the array of strings if there's room
-   * @param theString note value
+   * @param theNote note value
    * @return this tuning
    */
-  public Tuning addString(Note theString) {
+  public Tuning addNote(Note theNote) {
     if (cursor >= numStrings) {
       return this;
     }
-    strings[cursor++] = theString;
+    notes[cursor++] = theNote;
     return this;
   }
 
@@ -57,11 +57,11 @@ public class Tuning {
    * @param theString
    * @return
    */
-  public Tuning addString(Note theString, int position) {
+  public Tuning setNoteAt(Note theNote, int position) {
     if (!stringInRange(position)) {
       throw new IllegalArgumentException("Bad position: " + position);
     }
-    strings[position] = theString;
+    notes[position] = theNote;
     return this;
   }
   
@@ -80,7 +80,7 @@ public class Tuning {
     if (!stringInRange(position)) {
       throw new IllegalArgumentException("Bad position: " + position);
     }
-    return strings[position];
+    return notes[position];
   }
   
   /**

@@ -57,12 +57,12 @@ public class ChordShape {
   }
   
   /**
-   * adds a note to the shape (overwrite if existing)
+   * adds a position to the shape (overwrite if existing)
    * @param string which string the finger is on
    * @param fret which fret on the string
    * @return this chord shape
    */
-  public ChordShape addNote(int string, int fret) {
+  public ChordShape setStringAt(int string, int fret) {
     if (!stringInRange(string)) {
       throw new IllegalArgumentException("Bad string: " + string);
     }
@@ -147,17 +147,35 @@ public class ChordShape {
 
   /**
    * returns the note on a given string 
-   * @param string
-   * @return
+   * @param string which string
+   * @return the Note object at that string
    */
   public Note noteAt(int string) {
     // -1 means you're not playing that string
     if (positions[string] < 0) {
       return null;
     }
-    // the note is note from tuning at this string + base fret + position at this string 
-    return tuning.noteAt(string)
-            .add(baseFret)
-            .add(positions[string]);
+    // the note is note from tuning at this string + base fret + position at this string
+    return tuning
+      .noteAt(string)
+      .clone()
+      .add(baseFret)
+      .add(positions[string]);
+  }
+  
+  /**
+   * returns the chord made by this shape
+   * @return chord
+   */
+  public Chord getChord() {
+    Chord chord = new Chord();
+    Note note;
+    for (int i = 0; i < size(); ++i) {
+      note = noteAt(i);
+      if (note != null) {
+        chord.addNote(note);
+      }
+    }
+    return chord;
   }
 }

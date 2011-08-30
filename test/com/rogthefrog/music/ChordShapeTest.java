@@ -36,7 +36,7 @@ public class ChordShapeTest {
   @Test
   public void testAddNote() {
     ChordShape cs = new ChordShape();
-    cs.addNote(0, 1);
+    cs.setStringAt(0, 1);
   }
   
   @Test
@@ -45,22 +45,22 @@ public class ChordShapeTest {
     ChordShape cs = new ChordShape();
 
     // string 0 (low E), finger on fret 1
-    cs.addNote(0, 1);
+    cs.setStringAt(0, 1);
     // should be an F
     assertTrue(cs.noteAt(0).equals(new Note(AbsNote.F, 2)));
     
     // string 1 (low A), finger on fret 3
-    cs.addNote(1, 3);
+    cs.setStringAt(1, 3);
     // should be a C
     assertTrue(cs.noteAt(1).equals(new Note(AbsNote.C, 3)));
 
     // string 4 (high B), open
-    cs.addNote(4, 0);
+    cs.setStringAt(4, 0);
     // should be a B
     assertTrue(cs.noteAt(4).equals(new Note(AbsNote.B, 3)));
     
     // string 5 (high E), finger on fret 3
-    cs.addNote(5, 3);
+    cs.setStringAt(5, 3);
     // should be a G
     assertTrue(cs.noteAt(5).equals(new Note(AbsNote.G, 4)));
     
@@ -71,6 +71,19 @@ public class ChordShapeTest {
     assertTrue(cs.noteAt(4).equals(new Note(AbsNote.A, 3)));
     assertTrue(cs.noteAt(5).equals(new Note(AbsNote.F, 4)));
     
+  }
+  
+  @Test
+  public void testGetChord() {
+    // default tuning
+    ChordShape cs = new ChordShape();
+    cs.setStringAt(1, 3)    // C
+      .setStringAt(2, 2)    // E
+      .setStringAt(3, 0)    // G
+      .setStringAt(4, 1)    // C
+      .setStringAt(5, 0);   // E
+    Chord chord = cs.getChord();
+    System.out.println(chord.dump());
   }
 
   @Test

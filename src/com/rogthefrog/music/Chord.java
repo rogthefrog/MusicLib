@@ -283,6 +283,14 @@ public class Chord {
     return this;
   }
   
+  public String notesToString() {
+    StringBuffer sb = new StringBuffer("Just the notes\n");
+    for (Note n: notes) {
+      sb.append(n.toString()).append("\n");
+    }
+    return sb.toString();
+  }
+  
   public String dump() {
     StringBuffer sb = new StringBuffer("Chord analysis\n");
     sb.append("Notes: ")
