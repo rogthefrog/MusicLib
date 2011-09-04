@@ -132,6 +132,7 @@ public class ChordTest {
     Chord c = new Chord(AbsNote.C);
     c.addNote(cee);
     c.addNote(eee);
+    c.analyze();
     assertTrue(c.hasThird());
 
     c.removeExactNote(eee);
@@ -148,6 +149,7 @@ public class ChordTest {
     c.addNote(cee);
     c.addNote(eee);
     c.addNote(bee);
+    c.analyze();
     assertTrue(c.hasThird());
 
     c.removeExactNote(eee);
@@ -171,9 +173,6 @@ public class ChordTest {
     c.addNote(eee);
     c.addNote(gee);
 
-    // called whenever you add a note
-    // c.analyze();
-    
     assertNotNull(c.findThird());
     assertNull(c.findSeventh());
     

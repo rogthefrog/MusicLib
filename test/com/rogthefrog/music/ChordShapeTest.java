@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import com.rogthefrog.music.TuningFactory.Tunings;
+
 public class ChordShapeTest {
 
   @Test
@@ -37,6 +39,7 @@ public class ChordShapeTest {
   public void testAddNote() {
     ChordShape cs = new ChordShape();
     cs.setStringAt(0, 1);
+    assertTrue(new Note(AbsNote.F, 2).equals(cs.noteAt(0)));
   }
   
   @Test
@@ -74,6 +77,40 @@ public class ChordShapeTest {
   }
   
   @Test
+  public void testFindLowestNote() {
+    // default tuning
+    ChordShape cs = new ChordShape();
+
+    // C major
+    // string 0 (low E), unused
+    // string 1 (A), finger on fret 3
+    // string 2 (D), finger on fret 2
+    // string 3 (G), open
+    // string 4 (B), finger on fret 3
+    // string 5 (high E), finger on fret 3
+    cs.setStringAt(5, 0)
+      .setStringAt(4, 1)
+      .setStringAt(3, 0)
+      .setStringAt(2, 3)
+      .setStringAt(1, 3)
+      .removeNote(0);
+    assertTrue(cs.findLowestNote().equals(new Note(AbsNote.C, 3)));
+    
+    // add low G
+    cs.setStringAt(0, 3);
+    assertTrue(cs.findLowestNote().equals(new Note(AbsNote.G, 2)));
+    
+    // remove all notes
+    cs.removeNote(0)
+      .removeNote(1)
+      .removeNote(2)
+      .removeNote(3)
+      .removeNote(4)
+      .removeNote(5);
+    assertNull(cs.findLowestNote());
+  }
+
+  @Test
   public void testGetChord() {
     // default tuning
     ChordShape cs = new ChordShape();
@@ -88,12 +125,36 @@ public class ChordShapeTest {
 
   @Test
   public void testRemoveNote() {
-    fail("Not yet implemented");
+    // default tuning
+    ChordShape cs = new ChordShape();
+    cs.setStringAt(1, 3)    // C
+      .setStringAt(2, 2)    // E
+      .setStringAt(3, 0)    // G
+      .setStringAt(4, 1)    // C
+      .setStringAt(5, 0);   // E
+    assertTrue(cs.noteAt(1).equals(new Note(AbsNote.C, 3)));
+    cs.removeNote(1);
+    assertNull(cs.noteAt(1));
   }
 
   @Test
   public void testSize() {
-    fail("Not yet implemented");
+    // default tuning
+    ChordShape cs = new ChordShape();
+    assertEquals(6, cs.size());
+    cs = new ChordShape(TuningFactory.getTuning(Tunings.STANDARD_7));
+    assertEquals(7, cs.size());
   }
-
+  
+  @Test
+  public void testAnalyze() {
+    ChordShape cs = new ChordShape();
+    cs.setStringAt(1, 3)    // C
+      .setStringAt(2, 2)    // E
+      .setStringAt(3, 0)    // G
+      .setStringAt(4, 1)    // C
+      .setStringAt(5, 0);   // E
+    Chord c = cs.analyze();
+    assertTrue(c.getRoot().equals(AbsNote.C));
+  }
 }

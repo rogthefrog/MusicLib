@@ -5,8 +5,6 @@
  */
 package com.rogthefrog.music;
 
-import java.lang.IllegalArgumentException;
-
 public enum AbsNote {
   C       (0,   "C",  "do"),
   
@@ -142,7 +140,17 @@ public enum AbsNote {
     return (this.pitch == that.getPitch());
   }
   
+  /**
+   * compares a note to another
+   * @param that other AbsNote to compare
+   * @return true if this note is lower than that
+   */
+  public boolean isLowerThan(AbsNote that) {
+    return (this.pitch < that.getPitch());
+  }
+
   public int getPitch() {
     return pitch;
   }
+  
 }

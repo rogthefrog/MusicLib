@@ -46,10 +46,41 @@ public class Note {
     return note;
   }
   
+  /**
+   * compares a note to another 
+   * @param that note to compare
+   * @return true if the two notes are the same
+   */
   public boolean equals(Note that) {
     return (this.note == that.getNote() && this.octave == that.getOctave());
   }
   
+  /**
+   * compares a note's pitch to another 
+   * @param that note to compare
+   * @return true if this note is lower than that note
+   */
+  public boolean isLowerThan(Note that) {
+    if (equals(that)) {
+      return false;
+    }
+    if (octave == that.getOctave()) {
+      return note.isLowerThan(that.getNote());
+    } 
+    else {
+      return (octave < that.getOctave()); 
+    }
+  }
+  
+  /**
+   * compares a note's pitch to another 
+   * @param that note to compare
+   * @return true if this note is higher than that note
+   */
+  public boolean isHigherThan(Note that) {
+    return (!equals(that) && !isLowerThan(that));
+  }
+
   public boolean isA(AbsNote noteType) {
     return (noteType.equals(this.note));
   }

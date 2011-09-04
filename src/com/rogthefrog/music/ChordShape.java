@@ -7,6 +7,7 @@ public class ChordShape {
   private int baseFret = 0;
   private int[] positions;
   public static final int MAX_FRET = 36;
+  public static final int UNUSED = -1;
   
   /**
    * constructor with default tuning and base fret
@@ -14,6 +15,7 @@ public class ChordShape {
   public ChordShape() {
     tuning = TuningFactory.getTuning(TuningFactory.Tunings.STANDARD);
     positions = new int[tuning.size()];
+    removeAllNotes();
     baseFret = 0;
   }
   
@@ -29,6 +31,7 @@ public class ChordShape {
     } catch (IllegalArgumentException e) {
       setBaseFret(0);
     }
+    removeAllNotes();
   }
 
   /**
@@ -39,6 +42,7 @@ public class ChordShape {
     tuning = t;
     positions = new int[tuning.size()];
     baseFret = 0;
+    removeAllNotes();
   }
   
   /**
@@ -54,6 +58,7 @@ public class ChordShape {
     } catch (IllegalArgumentException e) {
       setBaseFret(0);
     }
+    removeAllNotes();
   }
   
   /**
@@ -82,7 +87,7 @@ public class ChordShape {
     if (!stringInRange(string)) {
       throw new IllegalArgumentException("Bad string: " + string);
     }
-    positions[string] = -1;
+    positions[string] = UNUSED;
     return this;
   }
   
@@ -145,14 +150,22 @@ public class ChordShape {
     return this;
   }
 
+  // no strings by default
+  public ChordShape removeAllNotes() {
+    for (int i = 0; i < tuning.size(); ++i) {
+      removeNote(i);
+    }
+    return this;
+  }
+
   /**
    * returns the note on a given string 
    * @param string which string
    * @return the Note object at that string
    */
   public Note noteAt(int string) {
-    // -1 means you're not playing that string
-    if (positions[string] < 0) {
+    // UNUSED means you're not playing that string
+    if (positions[string] == UNUSED) {
       return null;
     }
     // the note is note from tuning at this string + base fret + position at this string
@@ -176,6 +189,42 @@ public class ChordShape {
         chord.addNote(note);
       }
     }
+    chord.analyze();
     return chord;
+  }
+  
+  /**
+   * returns the lowest-pitched note in this shape
+   * @return lowest-pitched note
+   */
+  public Note findLowestNote() {
+    if (size() < 0) {
+      return null;
+    }
+    // start very high
+    Note theNote = null;
+    Note scratch;
+    for (int i = 0; i < size(); ++i) {
+      scratch = noteAt(i);
+      if (scratch == null) {
+        continue;
+      }
+      if (theNote == null) {
+        theNote = scratch.clone();
+        continue;
+      }
+      if (scratch.isLowerThan(theNote)) {
+        theNote = scratch.clone();
+      }
+    }
+    return theNote;
+  }
+  
+  /**
+   * analyzes the chord shape
+   * @return the chord, analyzed, with lowest note has root hint
+   */
+  public Chord analyze() {
+    return getChord().analyze(findLowestNote());  
   }
 }

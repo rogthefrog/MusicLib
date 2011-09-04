@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class Chord {
   private ArrayList<Note> notes;
+  private ArrayList<ChordAnalysis> analyses;
   private AbsNote root      = null;
   private Note third        = null;
   private Note seventh      = null;
@@ -13,7 +14,8 @@ public class Chord {
    * bare constructor
    */
   public Chord() {
-    notes   = new ArrayList<Note>();
+    notes     = new ArrayList<Note>();
+    analyses  = new ArrayList<ChordAnalysis>();
   }
   
   /**
@@ -23,6 +25,7 @@ public class Chord {
   public Chord(ArrayList<Note> n) {
     notes   = new ArrayList<Note>();
     notes.addAll(n);
+    analyses  = new ArrayList<ChordAnalysis>();
   }
   
   /**
@@ -32,6 +35,7 @@ public class Chord {
   public Chord(AbsNote rt) {
     root    = rt;
     notes   = new ArrayList<Note>();
+    analyses  = new ArrayList<ChordAnalysis>();
   }
   
   /**
@@ -43,6 +47,7 @@ public class Chord {
     root    = rt;
     notes   = new ArrayList<Note>();
     notes.addAll(n);
+    analyses  = new ArrayList<ChordAnalysis>();
   }
 
   /**
@@ -55,7 +60,7 @@ public class Chord {
       notes = new ArrayList<Note>();
     }
     notes.add(n);
-    analyze();
+    analyzed = false;
     return this;
   }
   
@@ -75,7 +80,7 @@ public class Chord {
     if (!toRemove.isEmpty()) {
       notes.removeAll(toRemove);
     }
-    analyze();
+    analyzed = false;
     return this;
   }
   
@@ -96,7 +101,7 @@ public class Chord {
     if (!toRemove.isEmpty()) {
       notes.removeAll(toRemove);
     }
-    analyze();
+    analyzed = false;
     return this;
   }
   
@@ -156,7 +161,38 @@ public class Chord {
   public AbsNote getRoot() {
     return root;
   }
+
+  /**
+   * pretty printer for notes
+   * @return a string of notes
+   */
+  public String notesToString() {
+    StringBuffer sb = new StringBuffer("Just the notes\n");
+    for (Note n: notes) {
+      sb.append(n.toString()).append("\n");
+    }
+    return sb.toString();
+  }
   
+  /**
+   * pretty printer for chord analysis
+   * @return a string with notes and values in the chord
+   */
+  public String dump() {
+    StringBuffer sb = new StringBuffer("Chord analysis\n");
+    sb.append("Notes: ")
+      .append(notes.toString())
+      .append("\nRoot: ")
+      .append(root.toString())
+      .append("\nThird: ")
+      .append(third == null ? "none" : third.toString())
+      .append(third != null && AbsInterval.isMajor(root, third.getNote()) ? " (major)" : " (minor)")
+      .append("\nSeventh: ")
+      .append(seventh == null ? "none" : seventh.toString())
+      .append(seventh != null && AbsInterval.isMajor(root, seventh.getNote()) ? " (major)" : " (minor)");
+    return sb.toString();
+  }
+
   /**
    * sets the root note
    * @param n root note
@@ -270,39 +306,87 @@ public class Chord {
   
   /**
    * analyzes the chord
+   * @param guessTheRoot true if you want to try to guess the root
    * @return the chord
    */
-  public Chord analyze() {
+  public Chord analyze(boolean guessTheRoot) {
     analyzed = false;
     
-    guessRoot();
+    if (guessTheRoot) {
+      guessRoot();
+    }
+    
     findThird();
     findSeventh();
+    
+    // try all options
+    analyses.clear();
+    for (Note note: notes) {
+      analyzeIntervals(note.getNote());
+    }
     
     analyzed = true;
     return this;
   }
   
-  public String notesToString() {
-    StringBuffer sb = new StringBuffer("Just the notes\n");
-    for (Note n: notes) {
-      sb.append(n.toString()).append("\n");
-    }
-    return sb.toString();
+  /**
+   * analyze the chord without guessing the root
+   * @return the chord
+   */
+  public Chord analyze() {
+    return analyze(false);
   }
-  
-  public String dump() {
-    StringBuffer sb = new StringBuffer("Chord analysis\n");
-    sb.append("Notes: ")
-      .append(notes.toString())
-      .append("\nRoot: ")
-      .append(root.toString())
-      .append("\nThird: ")
-      .append(third == null ? "none" : third.toString())
-      .append(third != null && AbsInterval.isMajor(root, third.getNote()) ? " (major)" : " (minor)")
-      .append("\nSeventh: ")
-      .append(seventh == null ? "none" : seventh.toString())
-      .append(seventh != null && AbsInterval.isMajor(root, seventh.getNote()) ? " (major)" : " (minor)");
-    return sb.toString();
-  }
+
+  /** 
+   * analyzes the chord, forcing a root
+    * @param an AbsNote object serving as root
+   * @return the chord
+   */
+   public Chord analyze(AbsNote forceRoot) {
+     root = forceRoot;
+     return analyze(false);
+   }
+   
+   /** 
+    * analyzes the chord, forcing a root
+    * @param a Note object serving as root
+    * @return the chord
+    */
+   public Chord analyze(Note forceRoot) {
+     return (forceRoot != null ? analyze(forceRoot.getNote()) : analyze());
+   }
+   
+   /**
+    * finds the chord's makeup given a root
+    * @param an AbsNote object serving as root
+    * @return a list of intervals
+    */
+   private void analyzeIntervals(AbsNote from) {
+     System.out.println("Analyzing intervals from " + from.toString());
+     ChordAnalysis ca = new ChordAnalysis();
+     for (Note note: notes) {
+       if (note.isA(from)) {
+         ca.set(AbsInterval.ROOT);
+       } else {
+         ca.set(AbsInterval.compareNotes(from, note.getNote()));
+       }
+     }
+     analyses.add(ca);
+     System.out.println("Degrees: " + ca.toString());
+   }
+   
+   /**
+    * if you have a bunch of available analyses, pick the default analysis
+    * @return the default chord analysis (simplest)
+    * TODO
+    */
+   public ChordAnalysis getDefaultAnalysis() {
+     if (!analyzed) {
+       analyze();
+     }
+     if (analyses.isEmpty()) {
+       return null;
+     }
+     return analyses.get(0);
+   }
 }

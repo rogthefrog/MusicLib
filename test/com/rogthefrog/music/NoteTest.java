@@ -53,4 +53,38 @@ public class NoteTest {
     assertTrue(n.equals(new Note(AbsNote.C, 4)));
     
   }
+  
+  @Test
+  public void testIsLowerThan() {
+    Note n = new Note(AbsNote.C, 2);
+    
+    assertTrue(n.isLowerThan(new Note(AbsNote.C_SHARP, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.D, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.D_SHARP, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.E, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.F, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.F_SHARP, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.G, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.G_SHARP, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.A, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.A_SHARP, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.B, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.C, 3)));
+    
+    assertTrue(n.isHigherThan(new Note(AbsNote.C, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.C_SHARP, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.D, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.D_SHARP, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.E, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.F, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.F_SHARP, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.G, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.G_SHARP, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.A, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.A_SHARP, 1)));
+    assertTrue(n.isHigherThan(new Note(AbsNote.B, 1)));
+    
+    assertFalse(n.isHigherThan(n));
+    assertFalse(n.isLowerThan(n));
+  }
 }
