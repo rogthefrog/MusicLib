@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * ChordAnalysis is a container for a chord's degrees
@@ -11,7 +12,6 @@ import java.util.Map;
  * @author roger
  */
 public class ChordAnalysis {
-  private static final int SIZE = 12;
   // Java can be so annoying sometimes
   private static final HashSet<AbsInterval> keys = new HashSet<AbsInterval>(
     Arrays.asList(
@@ -31,7 +31,7 @@ public class ChordAnalysis {
       }
     )
   );
-  private HashMap<AbsInterval, Boolean> degrees = new HashMap<AbsInterval, Boolean>(SIZE);
+  private HashMap<AbsInterval, Boolean> degrees = new HashMap<AbsInterval, Boolean>(keys.size());
   
   public ChordAnalysis() {
     clear();
@@ -49,6 +49,8 @@ public class ChordAnalysis {
   }
   
   public HashMap<AbsInterval, Boolean> getDegrees() {
+    // sort by key
+    //return new TreeMap(degrees);
     return degrees;
   }
   
@@ -89,6 +91,7 @@ public class ChordAnalysis {
       degrees.put(interval, value);
     }
   }
+  
   /**
    * @return a readable list of the degrees in this analysis
    */
