@@ -101,7 +101,7 @@ public class ChordAnalysis {
       AbsInterval key = entry.getKey();
       boolean on = entry.getValue();
       if (on) {
-        sb.append("[" + key.longName + "] ");
+        sb.append("[" + key.shortName + "] ");
       }
     }
     return sb.toString().trim();

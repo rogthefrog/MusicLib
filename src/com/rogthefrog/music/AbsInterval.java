@@ -6,35 +6,33 @@
 package com.rogthefrog.music;
 
 public enum AbsInterval {
-  ROOT      (0, "root",           "Root",   ""),
-  UNISON    (0, "unison",         "Un.",    ""),
-  SEMITONE  (1, "semitone",       "1/2T",   ""),
-  MIN_2     (1, "minor 2nd",      "m2",     "b9"),
-  MAJ_2     (2, "major 2nd",      "M2",     "9"),
-  WHOLETONE (2, "whole tone",     "1T",     ""),
-  MIN_3     (3, "minor 3rd",      "m3",     "m"),
-  MAJ_3     (4, "major 3rd",      "M3",     ""),
-  PERFECT_4 (5, "perfect 4th",    "4",      "11"),
-  AUG_4     (6, "augmented 4th",  "#4",     "#11"),
-  DIM_5     (6, "diminished 5th", "b5",     "b5"),
-  TRITONE   (6, "tritone",        "TT",     ""),
-  PERFECT_5 (7, "perfect 5th",    "5",      ""),
-  MIN_6     (8, "minor 6th",      "m6",     "m6"),
-  MAJ_6     (9, "major 6th",      "M6",     "6"),
-  MIN_7     (10, "minor 7th",     "7",     "7"),
-  MAJ_7     (11, "major 7th",     "M7",     "M7"),
-  OCTAVE    (12, "octave",        "8ve",    "");
+  ROOT      (0, "root",           "Root"),
+  UNISON    (0, "unison",         "Un."),
+  SEMITONE  (1, "semitone",       "1/2T"),
+  MIN_2     (1, "minor 2nd",      "m2"),
+  MAJ_2     (2, "major 2nd",      "M2"),
+  WHOLETONE (2, "whole tone",     "1T"),
+  MIN_3     (3, "minor 3rd",      "m3"),
+  MAJ_3     (4, "major 3rd",      "M3"),
+  PERFECT_4 (5, "perfect 4th",    "4"),
+  AUG_4     (6, "augmented 4th",  "#4"),
+  DIM_5     (6, "diminished 5th", "b5"),
+  TRITONE   (6, "tritone",        "TT"),
+  PERFECT_5 (7, "perfect 5th",    "5"),
+  MIN_6     (8, "minor 6th",      "m6"),
+  MAJ_6     (9, "major 6th",      "6"),
+  MIN_7     (10, "minor 7th",     "7"),
+  MAJ_7     (11, "major 7th",     "M7"),
+  OCTAVE    (12, "octave",        "8ve");
   
   protected int interval;
   protected String longName;
   protected String shortName;
-  protected String chordName;
   
-  AbsInterval(int i, String lnm, String snm, String cnm) {
+  AbsInterval(int i, String lnm, String snm) {
     interval  = i;
     longName  = lnm;
     shortName = snm;
-    chordName = cnm;
   }
   
   public static AbsInterval compareNotes(Note from, Note to) {
@@ -131,10 +129,6 @@ public enum AbsInterval {
   
   public String longName() {
     return longName;
-  }
-  
-  public String chordName() {
-    return chordName;
   }
   
   public String toString() {
