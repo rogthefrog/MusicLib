@@ -77,7 +77,6 @@ public class ScaleSchemaTest {
     assertFalse(major.contains(AbsInterval.MIN_6));
     assertFalse(major.contains(AbsInterval.MIN_7));
 
-    
     ScaleSchema minor = MinorScaleSchema.getInstance();
     assertTrue(minor.contains(AbsInterval.MAJ_2));
     assertTrue(minor.contains(AbsInterval.MIN_3));
@@ -94,6 +93,100 @@ public class ScaleSchemaTest {
     assertFalse(minor.contains(AbsInterval.MAJ_6));
     assertFalse(minor.contains(AbsInterval.MAJ_7));
 
+    ScaleSchema dorian = DorianModeSchema.getInstance();
+    assertTrue(dorian.contains(AbsInterval.MAJ_2));
+    assertTrue(dorian.contains(AbsInterval.MIN_3));
+    assertTrue(dorian.contains(AbsInterval.PERFECT_4));
+    assertTrue(dorian.contains(AbsInterval.PERFECT_5));
+    assertTrue(dorian.contains(AbsInterval.MAJ_6));
+    assertTrue(dorian.contains(AbsInterval.MIN_7));
+
+    assertFalse(dorian.contains(AbsInterval.MIN_2));
+    assertFalse(dorian.contains(AbsInterval.MAJ_3));
+    assertFalse(dorian.contains(AbsInterval.AUG_4));
+    assertFalse(dorian.contains(AbsInterval.DIM_5));
+    assertFalse(dorian.contains(AbsInterval.TRITONE));
+    assertFalse(dorian.contains(AbsInterval.MIN_6));
+    assertFalse(dorian.contains(AbsInterval.MAJ_7));
+
+    ScaleSchema phrygian = PhrygianModeSchema.getInstance();
+    assertTrue(phrygian.contains(AbsInterval.MIN_2));
+    assertTrue(phrygian.contains(AbsInterval.MIN_3));
+    assertTrue(phrygian.contains(AbsInterval.PERFECT_4));
+    assertTrue(phrygian.contains(AbsInterval.PERFECT_5));
+    assertTrue(phrygian.contains(AbsInterval.MIN_6));
+    assertTrue(phrygian.contains(AbsInterval.MIN_7));
+
+    assertFalse(phrygian.contains(AbsInterval.MAJ_2));
+    assertFalse(phrygian.contains(AbsInterval.MAJ_3));
+    assertFalse(phrygian.contains(AbsInterval.AUG_4));
+    assertFalse(phrygian.contains(AbsInterval.DIM_5));
+    assertFalse(phrygian.contains(AbsInterval.TRITONE));
+    assertFalse(phrygian.contains(AbsInterval.MAJ_6));
+    assertFalse(phrygian.contains(AbsInterval.MAJ_7));
+
+    ScaleSchema lydian = LydianModeSchema.getInstance();
+    assertTrue(lydian.contains(AbsInterval.MAJ_2));
+    assertTrue(lydian.contains(AbsInterval.MAJ_3));
+    // these are enharmonic, and I'm not handling enharmonics well yet
+    assertTrue(lydian.contains(AbsInterval.AUG_4));
+    assertTrue(lydian.contains(AbsInterval.DIM_5));
+    assertTrue(lydian.contains(AbsInterval.TRITONE));
+    assertTrue(lydian.contains(AbsInterval.PERFECT_5));
+    assertTrue(lydian.contains(AbsInterval.MAJ_6));
+    assertTrue(lydian.contains(AbsInterval.MAJ_7));
+
+    assertFalse(lydian.contains(AbsInterval.MIN_2));
+    assertFalse(lydian.contains(AbsInterval.MIN_3));
+    assertFalse(lydian.contains(AbsInterval.PERFECT_4));
+    assertFalse(lydian.contains(AbsInterval.MIN_6));
+    assertFalse(lydian.contains(AbsInterval.MIN_7));
+    
+    ScaleSchema mixo = MixolydianModeSchema.getInstance();
+    assertTrue(mixo.contains(AbsInterval.MAJ_2));
+    assertTrue(mixo.contains(AbsInterval.MAJ_3));
+    assertTrue(mixo.contains(AbsInterval.PERFECT_4));
+    assertTrue(mixo.contains(AbsInterval.PERFECT_5));
+    assertTrue(mixo.contains(AbsInterval.MAJ_6));
+    assertTrue(mixo.contains(AbsInterval.MIN_7));
+
+    assertFalse(mixo.contains(AbsInterval.MIN_2));
+    assertFalse(mixo.contains(AbsInterval.MIN_3));
+    assertFalse(mixo.contains(AbsInterval.AUG_4));
+    assertFalse(mixo.contains(AbsInterval.DIM_5));
+    assertFalse(mixo.contains(AbsInterval.TRITONE));
+    assertFalse(mixo.contains(AbsInterval.MIN_6));
+    assertFalse(mixo.contains(AbsInterval.MAJ_7));
+    
+    ScaleSchema aeolian = AeolianModeSchema.getInstance();
+    assertTrue(aeolian.contains(AbsInterval.MAJ_2));
+    assertTrue(aeolian.contains(AbsInterval.MIN_3));
+    assertTrue(aeolian.contains(AbsInterval.PERFECT_4));
+    assertTrue(aeolian.contains(AbsInterval.PERFECT_5));
+    assertTrue(aeolian.contains(AbsInterval.MIN_6));
+    assertTrue(aeolian.contains(AbsInterval.MIN_7));
+
+    assertFalse(aeolian.contains(AbsInterval.MIN_2));
+    assertFalse(aeolian.contains(AbsInterval.MAJ_3));
+    assertFalse(aeolian.contains(AbsInterval.AUG_4));
+    assertFalse(aeolian.contains(AbsInterval.DIM_5));
+    assertFalse(aeolian.contains(AbsInterval.TRITONE));
+    assertFalse(aeolian.contains(AbsInterval.MAJ_6));
+    assertFalse(aeolian.contains(AbsInterval.MAJ_7));
+
+    ScaleSchema locrian = LocrianModeSchema.getInstance();
+    assertTrue(locrian.contains(AbsInterval.MIN_2));
+    assertTrue(locrian.contains(AbsInterval.MIN_3));
+    assertTrue(locrian.contains(AbsInterval.PERFECT_4));
+    assertTrue(locrian.contains(AbsInterval.DIM_5));
+    assertTrue(locrian.contains(AbsInterval.TRITONE));
+    assertTrue(locrian.contains(AbsInterval.MIN_6));
+    assertTrue(locrian.contains(AbsInterval.MIN_7));
+
+    assertFalse(locrian.contains(AbsInterval.MAJ_2));
+    assertFalse(locrian.contains(AbsInterval.MAJ_3));
+    assertFalse(locrian.contains(AbsInterval.MAJ_6));
+    assertFalse(locrian.contains(AbsInterval.MAJ_7));
   }
 
 }
