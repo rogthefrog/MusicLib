@@ -54,6 +54,17 @@ public class ScaleSchema {
     }
     return prettyName;
   }
+  
+  public int countNotes() {
+    int numNotes = 0;
+    for (int i = 0; i < Music.SEMITONES_IN_OCTAVE; ++i) {
+      int power = (int)Math.pow(2, i);
+      if ((schema & power) == power) {
+        ++numNotes;
+      }
+    }
+    return numNotes;
+  }
 
   /**
    * checks whether a scale schema contains a given interval

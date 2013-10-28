@@ -14,7 +14,16 @@ public class ScaleSchemaTest {
     scale.setSchema(0b000000000001);
     assertFalse(ScaleSchema.hasNoRoot(scale.getSchema()));
   }
-
+  
+  @Test public void testCountNotes() {
+    ScaleSchema scale = new ScaleSchema(0b101010101010, "Test schema");
+    assertEquals(6, scale.countNotes());
+    scale.setSchema(0);
+    assertEquals(0, scale.countNotes());
+    scale.setSchema(0b11111111);
+    assertEquals(8, scale.countNotes());
+  }
+  
   @Test
   public void testShiftUp() {
     ScaleSchema major = MajorScaleSchema.getInstance();
