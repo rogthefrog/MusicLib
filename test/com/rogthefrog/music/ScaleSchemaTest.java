@@ -67,6 +67,9 @@ public class ScaleSchemaTest {
     ScaleSchema two = new ScaleSchema(0b101010101010, "two");
     assertTrue(one.equals(two));
     
+    two.shiftUp(0);
+    assertTrue(one.equals(two));
+    
     two.shiftUp(Music.SEMITONES_IN_OCTAVE);
     assertTrue(one.equals(two));
     
@@ -239,6 +242,14 @@ public class ScaleSchemaTest {
     
     // synonyms
     assertTrue(aeolian.equals(minor));
+    
+    major = new ScaleSchema(MajorScaleSchema.SCHEMA);
+    assertTrue(major.shiftUp(2).equals(dorian));
+    assertTrue(major.shiftUp(2).equals(phrygian));
+    assertTrue(major.shiftUp(1).equals(lydian));
+    assertTrue(major.shiftUp(2).equals(mixo));
+    assertTrue(major.shiftUp(2).equals(aeolian));
+    assertTrue(major.shiftUp(2).equals(locrian));
   }
 
 }

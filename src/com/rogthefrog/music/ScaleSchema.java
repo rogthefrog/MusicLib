@@ -1,4 +1,5 @@
 package com.rogthefrog.music;
+import java.lang.Exception;
 
 public class ScaleSchema {
   
@@ -36,6 +37,9 @@ public class ScaleSchema {
   }
   
   protected void setSchema(int schema) {
+    if (schema > Math.pow(2, Music.SEMITONES_IN_OCTAVE)) {
+      throw new RuntimeException("Schema " + schema + "is too big");
+    }
     this.schema = schema;
   }
   
@@ -212,6 +216,4 @@ public class ScaleSchema {
     setName(oldName + " + 1 " + interval.longName());
     return this;
   }
-  
-  
 }
