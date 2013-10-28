@@ -8,21 +8,13 @@ import org.junit.Test;
 public class ScaleSchemaTest {
 
   @Test
-  public void testEnsureSchemaHasRoot() {
-    ScaleSchema schema = new ScaleSchema(0b101010101010);
-    assertTrue(schema.hasNoRoot());
-    schema.ensureSchemaHasRoot();
-    assertEquals(0b010101010101, schema.getSchema());
-  }
-  
-  @Test
   public void testHasNoRoot() {
-    ScaleSchema schema = new ScaleSchema(0b000000000000, "Zero schema");
-    assertTrue(schema.hasNoRoot());
-    schema.setSchema(0b000000000001);
-    assertFalse(schema.hasNoRoot());
+    ScaleSchema scale = new ScaleSchema(0b000000000000, "Zero schema");
+    assertTrue(ScaleSchema.hasNoRoot(scale.getSchema()));
+    scale.setSchema(0b000000000001);
+    assertFalse(ScaleSchema.hasNoRoot(scale.getSchema()));
   }
-  
+
   @Test
   public void testShiftUp() {
     ScaleSchema major = MajorScaleSchema.getInstance();
@@ -58,7 +50,32 @@ public class ScaleSchemaTest {
     major.shiftUp(AbsInterval.MAJ_6);
     assertEquals(minor.getSchema(), major.getSchema());
   }
+
+  @Test
+  public void testSanitizeSemitones() {
+    for (int i = 0; i < Music.SEMITONES_IN_OCTAVE; ++i) {
+      assertEquals(i, ScaleSchema.sanitizeSemitones(i));
+    }
+    for (int i = Music.SEMITONES_IN_OCTAVE; i < 3 * Music.SEMITONES_IN_OCTAVE; ++i) {
+      assertEquals(i % Music.SEMITONES_IN_OCTAVE, ScaleSchema.sanitizeSemitones(i));
+    }
+  }
   
+  @Test
+  public void testEquals() {
+    ScaleSchema one = new ScaleSchema(0b101010101010, "one");
+    ScaleSchema two = new ScaleSchema(0b101010101010, "two");
+    assertTrue(one.equals(two));
+    
+    two.shiftUp(Music.SEMITONES_IN_OCTAVE);
+    assertTrue(one.equals(two));
+    
+    for (int i = 1; i < Music.SEMITONES_IN_OCTAVE - 1; ++i) {
+      two.shiftUp(i);
+      assertFalse(one.equals(two));
+    }
+  }
+
   @Test
   public void testContains() {
     ScaleSchema major = MajorScaleSchema.getInstance();
@@ -173,7 +190,7 @@ public class ScaleSchemaTest {
     assertFalse(aeolian.contains(AbsInterval.TRITONE));
     assertFalse(aeolian.contains(AbsInterval.MAJ_6));
     assertFalse(aeolian.contains(AbsInterval.MAJ_7));
-
+    
     ScaleSchema locrian = LocrianModeSchema.getInstance();
     assertTrue(locrian.contains(AbsInterval.MIN_2));
     assertTrue(locrian.contains(AbsInterval.MIN_3));
@@ -187,6 +204,41 @@ public class ScaleSchemaTest {
     assertFalse(locrian.contains(AbsInterval.MAJ_3));
     assertFalse(locrian.contains(AbsInterval.MAJ_6));
     assertFalse(locrian.contains(AbsInterval.MAJ_7));
+ 
+    ScaleSchema melMinor = MelodicMinorScaleSchema.getInstance();
+    assertTrue(melMinor.contains(AbsInterval.MAJ_2));
+    assertTrue(melMinor.contains(AbsInterval.MIN_3));
+    assertTrue(melMinor.contains(AbsInterval.PERFECT_4));
+    assertTrue(melMinor.contains(AbsInterval.PERFECT_5));
+    assertTrue(melMinor.contains(AbsInterval.MAJ_6));
+    assertTrue(melMinor.contains(AbsInterval.MAJ_7));
+
+    assertFalse(melMinor.contains(AbsInterval.MIN_2));
+    assertFalse(melMinor.contains(AbsInterval.MAJ_3));
+    assertFalse(melMinor.contains(AbsInterval.AUG_4));
+    assertFalse(melMinor.contains(AbsInterval.DIM_5));
+    assertFalse(melMinor.contains(AbsInterval.TRITONE));
+    assertFalse(melMinor.contains(AbsInterval.MIN_6));
+    assertFalse(melMinor.contains(AbsInterval.MIN_7));
+
+    ScaleSchema harmMinor = HarmonicMinorScaleSchema.getInstance();
+    assertTrue(harmMinor.contains(AbsInterval.MAJ_2));
+    assertTrue(harmMinor.contains(AbsInterval.MIN_3));
+    assertTrue(harmMinor.contains(AbsInterval.PERFECT_4));
+    assertTrue(harmMinor.contains(AbsInterval.PERFECT_5));
+    assertTrue(harmMinor.contains(AbsInterval.MIN_6));
+    assertTrue(harmMinor.contains(AbsInterval.MAJ_7));
+
+    assertFalse(harmMinor.contains(AbsInterval.MIN_2));
+    assertFalse(harmMinor.contains(AbsInterval.MAJ_3));
+    assertFalse(harmMinor.contains(AbsInterval.AUG_4));
+    assertFalse(harmMinor.contains(AbsInterval.DIM_5));
+    assertFalse(harmMinor.contains(AbsInterval.TRITONE));
+    assertFalse(harmMinor.contains(AbsInterval.MAJ_6));
+    assertFalse(harmMinor.contains(AbsInterval.MIN_7));
+    
+    // synonyms
+    assertTrue(aeolian.equals(minor));
   }
 
 }
