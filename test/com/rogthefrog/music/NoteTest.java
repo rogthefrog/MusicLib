@@ -66,9 +66,9 @@ public class NoteTest {
     assertTrue(n.isLowerThan(new Note(AbsNote.F_SHARP, 2)));
     assertTrue(n.isLowerThan(new Note(AbsNote.G, 2)));
     assertTrue(n.isLowerThan(new Note(AbsNote.G_SHARP, 2)));
-    assertTrue(n.isLowerThan(new Note(AbsNote.A, 2)));
-    assertTrue(n.isLowerThan(new Note(AbsNote.A_SHARP, 2)));
-    assertTrue(n.isLowerThan(new Note(AbsNote.B, 2)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.A, 3)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.A_SHARP, 3)));
+    assertTrue(n.isLowerThan(new Note(AbsNote.B, 3)));
     assertTrue(n.isLowerThan(new Note(AbsNote.C, 3)));
     
     assertTrue(n.isHigherThan(new Note(AbsNote.C, 1)));

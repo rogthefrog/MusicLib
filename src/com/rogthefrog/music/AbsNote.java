@@ -6,45 +6,48 @@
 package com.rogthefrog.music;
 
 public enum AbsNote {
-  C       (0,   "C",  "do"),
-  
-  C_SHARP (1,   "C#", "do #"),
-  D_FLAT  (1,   "Db", "re b"),
-  
-  D       (2,   "D",  "re"),
-  
-  D_SHARP (3,   "D",  "re #"),
-  E_FLAT  (3,   "D",  "mi b"),
-  
-  E       (4,   "E",  "mi"),
-  
-  F       (5,   "F",  "fa"),
-  E_SHARP (5,   "E#", "mi #"),
-  
-  F_SHARP (6,   "F#", "fa #"),
-  G_FLAT  (6,   "Gb", "sol b",  "so b"),
-  
-  G       (7,   "G",  "sol",    "so"),
+  A       (0,   "A",  "la"),
 
-  G_SHARP (8,   "G#", "sol #",  "so #"),
-  A_FLAT  (8,   "Ab", "la b"),
+  A_SHARP (1,  "A#", "la #"),
+  B_FLAT  (1,  "Bb", "si b",   "ti b"),
   
-  A       (9,   "A",  "la"),
+  B       (2,  "B", "si",      "ti"),
+  C_FLAT  (2,  "Cb", "do b"), 
 
-  A_SHARP (10,  "A#", "la #"),
-  B_FLAT  (10,  "Bb", "si b",   "ti b"),
+  B_SHARP (3,   "B#", "si #",   "ti #"),
+
+  C       (3,   "C",  "do"),
   
-  B       (11,  "B", "si",      "ti"),
-  C_FLAT  (11,  "Cb", "do b"), 
+  C_SHARP (4,   "C#", "do #"),
+  D_FLAT  (4,   "Db", "re b"),
+  
+  D       (5,   "D",  "re"),
+  
+  D_SHARP (6,   "D",  "re #"),
+  E_FLAT  (6,   "D",  "mi b"),
+  
+  E       (7,   "E",  "mi"),
+  
+  F       (8,   "F",  "fa"),
+  E_SHARP (8,   "E#", "mi #"),
+  
+  F_SHARP (9,   "F#", "fa #"),
+  G_FLAT  (9,   "Gb", "sol b",  "so b"),
+  
+  G       (10,   "G",  "sol",    "so"),
 
-  B_SHARP (0,   "B#", "si #",   "ti #");
+  G_SHARP (11,   "G#", "sol #",  "so #"),
+  A_FLAT  (11,   "Ab", "la b");
 
-  public final int pitch; // offset from C in semitones
+  public final int pitch; // offset from A in semitones
   public final String name; // A, B, etc.
   public final String stdName; // la, si, etc
   public final String englishName; // la, ti, etc
   
   public static final AbsNote[] namesFromPitch = new AbsNote[] {
+      AbsNote.A,
+      AbsNote.A_SHARP,
+      AbsNote.B,
       AbsNote.C, 
       AbsNote.C_SHARP,
       AbsNote.D,
@@ -53,10 +56,7 @@ public enum AbsNote {
       AbsNote.F,
       AbsNote.F_SHARP,
       AbsNote.G,
-      AbsNote.G_SHARP,
-      AbsNote.A,
-      AbsNote.A_SHARP,
-      AbsNote.B
+      AbsNote.G_SHARP
   };
   
   enum NameStyle {
@@ -89,8 +89,8 @@ public enum AbsNote {
    * @return wrapped pitch
    */
   public static int wrapPitch(int p) {
-    int mod = p % 12;
-    return (mod < 0) ? 12 + mod : mod;
+    int mod = p % Music.SEMITONES_IN_OCTAVE;
+    return (mod < 0) ? Music.SEMITONES_IN_OCTAVE + mod : mod;
   }
   
   public int pitch() {
