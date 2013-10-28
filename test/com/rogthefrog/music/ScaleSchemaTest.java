@@ -240,6 +240,94 @@ public class ScaleSchemaTest {
     assertFalse(harmMinor.contains(AbsInterval.MAJ_6));
     assertFalse(harmMinor.contains(AbsInterval.MIN_7));
     
+    // melodic minor scale modes
+    ScaleSchema dorianFlatNine = DorianFlatNineModeSchema.getInstance();
+    assertTrue(dorianFlatNine.contains(AbsInterval.MIN_2));
+    assertTrue(dorianFlatNine.contains(AbsInterval.MIN_3));
+    assertTrue(dorianFlatNine.contains(AbsInterval.PERFECT_4));
+    assertTrue(dorianFlatNine.contains(AbsInterval.PERFECT_5));
+    assertTrue(dorianFlatNine.contains(AbsInterval.MAJ_6));
+    assertTrue(dorianFlatNine.contains(AbsInterval.MIN_7));
+
+    assertFalse(dorianFlatNine.contains(AbsInterval.MAJ_2));
+    assertFalse(dorianFlatNine.contains(AbsInterval.MAJ_3));
+    assertFalse(dorianFlatNine.contains(AbsInterval.AUG_4));
+    assertFalse(dorianFlatNine.contains(AbsInterval.DIM_5));
+    assertFalse(dorianFlatNine.contains(AbsInterval.TRITONE));
+    assertFalse(dorianFlatNine.contains(AbsInterval.MIN_6));
+    assertFalse(dorianFlatNine.contains(AbsInterval.MAJ_7));
+    
+    ScaleSchema lydianAugmented = LydianAugmentedModeSchema.getInstance();
+    assertTrue(lydianAugmented.contains(AbsInterval.MAJ_2));
+    assertTrue(lydianAugmented.contains(AbsInterval.MAJ_3));
+    assertTrue(lydianAugmented.contains(AbsInterval.AUG_4));
+    assertTrue(lydianAugmented.contains(AbsInterval.AUG_5));
+    assertTrue(lydianAugmented.contains(AbsInterval.MAJ_6));
+    assertTrue(lydianAugmented.contains(AbsInterval.MAJ_7));
+
+    assertFalse(lydianAugmented.contains(AbsInterval.MIN_2));
+    assertFalse(lydianAugmented.contains(AbsInterval.MIN_3));
+    assertFalse(lydianAugmented.contains(AbsInterval.PERFECT_4));
+    assertFalse(lydianAugmented.contains(AbsInterval.PERFECT_5));
+    assertFalse(lydianAugmented.contains(AbsInterval.MIN_7));
+    
+    ScaleSchema lydianDominant = LydianDominantModeSchema.getInstance();
+    assertTrue(lydianDominant.contains(AbsInterval.MAJ_2));
+    assertTrue(lydianDominant.contains(AbsInterval.MAJ_3));
+    assertTrue(lydianDominant.contains(AbsInterval.AUG_4));
+    assertTrue(lydianDominant.contains(AbsInterval.PERFECT_5));
+    assertTrue(lydianDominant.contains(AbsInterval.MAJ_6));
+    assertTrue(lydianDominant.contains(AbsInterval.MIN_7));
+
+    assertFalse(lydianDominant.contains(AbsInterval.MIN_2));
+    assertFalse(lydianDominant.contains(AbsInterval.MIN_3));
+    assertFalse(lydianDominant.contains(AbsInterval.PERFECT_4));
+    assertFalse(lydianDominant.contains(AbsInterval.MIN_6));
+    assertFalse(lydianDominant.contains(AbsInterval.MAJ_7));
+    
+    ScaleSchema mixoFlatSix = MixolydianFlatSixModeSchema.getInstance();
+    assertTrue(mixoFlatSix.contains(AbsInterval.MAJ_2));
+    assertTrue(mixoFlatSix.contains(AbsInterval.MAJ_3));
+    assertTrue(mixoFlatSix.contains(AbsInterval.PERFECT_4));
+    assertTrue(mixoFlatSix.contains(AbsInterval.PERFECT_5));
+    assertTrue(mixoFlatSix.contains(AbsInterval.MIN_6));
+    assertTrue(mixoFlatSix.contains(AbsInterval.MIN_7));
+
+    assertFalse(mixoFlatSix.contains(AbsInterval.MIN_2));
+    assertFalse(mixoFlatSix.contains(AbsInterval.MIN_3));
+    assertFalse(mixoFlatSix.contains(AbsInterval.AUG_4));
+    assertFalse(mixoFlatSix.contains(AbsInterval.DIM_5));
+    assertFalse(mixoFlatSix.contains(AbsInterval.TRITONE));
+    assertFalse(mixoFlatSix.contains(AbsInterval.MAJ_6));
+    assertFalse(mixoFlatSix.contains(AbsInterval.MAJ_7));
+
+    ScaleSchema halfDim = HalfDiminishedScaleSchema.getInstance();
+    assertTrue(halfDim.contains(AbsInterval.MAJ_2));
+    assertTrue(halfDim.contains(AbsInterval.MIN_3));
+    assertTrue(halfDim.contains(AbsInterval.PERFECT_4));
+    assertTrue(halfDim.contains(AbsInterval.DIM_5));
+    assertTrue(halfDim.contains(AbsInterval.TRITONE));
+    assertTrue(halfDim.contains(AbsInterval.MIN_6));
+    assertTrue(halfDim.contains(AbsInterval.MIN_7));
+
+    assertFalse(halfDim.contains(AbsInterval.MIN_2));
+    assertFalse(halfDim.contains(AbsInterval.MAJ_3));
+    assertFalse(halfDim.contains(AbsInterval.MAJ_6));
+    assertFalse(halfDim.contains(AbsInterval.MAJ_7));
+    
+    ScaleSchema superLocrian = SuperLocrianModeSchema.getInstance();
+    assertTrue(superLocrian.contains(AbsInterval.MIN_2));
+    assertTrue(superLocrian.contains(AbsInterval.MIN_3));
+    assertTrue(superLocrian.contains(AbsInterval.DIM_4));
+    assertTrue(superLocrian.contains(AbsInterval.DIM_5));
+    assertTrue(superLocrian.contains(AbsInterval.TRITONE));
+    assertTrue(superLocrian.contains(AbsInterval.MIN_6));
+    assertTrue(superLocrian.contains(AbsInterval.MIN_7));
+
+    assertFalse(superLocrian.contains(AbsInterval.MAJ_2));
+    assertFalse(superLocrian.contains(AbsInterval.MAJ_6));
+    assertFalse(superLocrian.contains(AbsInterval.MAJ_7));
+    
     // synonyms
     assertTrue(aeolian.equals(minor));
     
