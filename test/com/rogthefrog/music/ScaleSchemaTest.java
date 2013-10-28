@@ -45,23 +45,19 @@ public class ScaleSchemaTest {
     assertEquals(oldSchema, major.getSchema());
     
     // shift by non-zero, should not match
-    /*
     major.shiftUp(1);
     assertThat(oldSchema, not(equalTo(major.getSchema())));
     
     major.shiftUp(AbsInterval.MAJ_3);
     assertThat(oldSchema, not(equalTo(major.getSchema())));
     
-    // start from scratch, shift by a 6th, should be a minor scale
+    // start from a major scale, shift by a 6th, should be a minor scale
     ScaleSchema minor = MinorScaleSchema.getInstance();
     major.setSchema(oldSchema);
     major.setName(oldName);
-    System.out.println(major);
-    System.out.println(minor);
-    major.shiftUp(9);
-    System.out.println(major);
+    major.shiftUp(AbsInterval.MAJ_6);
     assertEquals(minor.getSchema(), major.getSchema());
-    */
+
   }
 
 }
