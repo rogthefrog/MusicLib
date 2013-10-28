@@ -44,7 +44,7 @@ public enum AbsInterval {
     int toNote    = to.pitch();
     int diff = toNote - fromNote;
     if (diff < 0) {
-      diff += 12;
+      diff += Music.SEMITONES_IN_OCTAVE;
     }; 
     return AbsInterval.fromPitchInterval(diff);
   }
@@ -69,13 +69,13 @@ public enum AbsInterval {
 
   /**
    * returns an AbsInterval based on the pitch diff. between notes
-   * TODO: handle pseudo-synonyms (#4 and b5)
+   * TODO: handle enharmonics (#4 and b5)
    * @param i an interval in semitones
    * @return the default name for that interval
    */
   public static AbsInterval fromPitchInterval(int i) {
-    if (i > 12) {
-      i = i % 12;
+    if (i > Music.SEMITONES_IN_OCTAVE) {
+      i = i % Music.SEMITONES_IN_OCTAVE;
     }
     AbsInterval itv;
     switch(i) {

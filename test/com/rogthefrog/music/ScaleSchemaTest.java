@@ -8,19 +8,19 @@ import org.junit.Test;
 public class ScaleSchemaTest {
 
   @Test
-  public void testEnsureEvenSchema() {
+  public void testEnsureSchemaHasRoot() {
     ScaleSchema schema = new ScaleSchema(0b101010101010);
-    assertTrue(schema.hasZeroBasedSchema());
-    schema.ensureEvenSchema();
+    assertTrue(schema.hasNoRoot());
+    schema.ensureSchemaHasRoot();
     assertEquals(0b010101010101, schema.getSchema());
   }
   
   @Test
-  public void testHasZeroBasedSchema() {
+  public void testHasNoRoot() {
     ScaleSchema schema = new ScaleSchema(0b000000000000, "Zero schema");
-    assertTrue(schema.hasZeroBasedSchema());
+    assertTrue(schema.hasNoRoot());
     schema.setSchema(0b000000000001);
-    assertFalse(schema.hasZeroBasedSchema());
+    assertFalse(schema.hasNoRoot());
   }
   
   @Test
@@ -37,7 +37,7 @@ public class ScaleSchemaTest {
     assertEquals(oldSchema, major.getSchema());
 
     // if we shift by an octave we should be back to 0
-    major.shiftUp(ScaleSchema.SEMITONES_IN_OCTAVE);
+    major.shiftUp(Music.SEMITONES_IN_OCTAVE);
     assertEquals(oldSchema, major.getSchema());
 
     // shift by an octave interval
@@ -57,6 +57,42 @@ public class ScaleSchemaTest {
     major.setName(oldName);
     major.shiftUp(AbsInterval.MAJ_6);
     assertEquals(minor.getSchema(), major.getSchema());
+  }
+  
+  @Test
+  public void testContains() {
+    ScaleSchema major = MajorScaleSchema.getInstance();
+    assertTrue(major.contains(AbsInterval.MAJ_2));
+    assertTrue(major.contains(AbsInterval.MAJ_3));
+    assertTrue(major.contains(AbsInterval.PERFECT_4));
+    assertTrue(major.contains(AbsInterval.PERFECT_5));
+    assertTrue(major.contains(AbsInterval.MAJ_6));
+    assertTrue(major.contains(AbsInterval.MAJ_7));
+
+    assertFalse(major.contains(AbsInterval.MIN_2));
+    assertFalse(major.contains(AbsInterval.MIN_3));
+    assertFalse(major.contains(AbsInterval.AUG_4));
+    assertFalse(major.contains(AbsInterval.DIM_5));
+    assertFalse(major.contains(AbsInterval.TRITONE));
+    assertFalse(major.contains(AbsInterval.MIN_6));
+    assertFalse(major.contains(AbsInterval.MIN_7));
+
+    
+    ScaleSchema minor = MinorScaleSchema.getInstance();
+    assertTrue(minor.contains(AbsInterval.MAJ_2));
+    assertTrue(minor.contains(AbsInterval.MIN_3));
+    assertTrue(minor.contains(AbsInterval.PERFECT_4));
+    assertTrue(minor.contains(AbsInterval.PERFECT_5));
+    assertTrue(minor.contains(AbsInterval.MIN_6));
+    assertTrue(minor.contains(AbsInterval.MIN_7));
+
+    assertFalse(minor.contains(AbsInterval.MIN_2));
+    assertFalse(minor.contains(AbsInterval.MAJ_3));
+    assertFalse(minor.contains(AbsInterval.AUG_4));
+    assertFalse(minor.contains(AbsInterval.DIM_5));
+    assertFalse(minor.contains(AbsInterval.TRITONE));
+    assertFalse(minor.contains(AbsInterval.MAJ_6));
+    assertFalse(minor.contains(AbsInterval.MAJ_7));
 
   }
 
