@@ -73,7 +73,7 @@ public class ScaleSchema {
   }
   
   public String toString() {
-    String prettyName = Integer.toBinaryString(this.schema);
+    String prettyName = zeroPadSchema(this.schema);
     if (this.name != "") {
       prettyName = this.name + " = " + prettyName;
     }
@@ -119,5 +119,13 @@ public class ScaleSchema {
     this.setName(oldName + " + 1 " + interval.longName());
 
     return this;
+  }
+  
+  /**
+   * pads the binary representation of the scale
+   */
+  public static String zeroPadSchema(int schema) {
+    return String.format("%" + SEMITONES_IN_OCTAVE + "s", 
+      Integer.toBinaryString(schema)).replace(" ", "0");
   }
 }
