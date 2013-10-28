@@ -91,7 +91,7 @@ public class ScaleSchema {
     int power   = 0;
     for (int i = 0; i < Music.SEMITONES_IN_OCTAVE; ++i) {
       power = (int)Math.pow(2,  i);
-      if ((schema & power) == 0) {
+      if ((schema & power) != power) {
         flipped += power;
       }
     }
